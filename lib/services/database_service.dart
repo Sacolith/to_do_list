@@ -49,7 +49,9 @@ class DatabaseS{
 
     Future<void> updateTask(TaskModel task) async{
       final db= await database;
-      await db.update('tasks', task.tasks(), where:"id=?", whereArgs:[task.id]);
+      await db.update('tasks',task.tasks(),where:"id=?", whereArgs:[task.id],);
+      debugPrint('Working');
+      
     }
 
     Future<void> deleteTask(String id) async{

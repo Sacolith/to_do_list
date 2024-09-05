@@ -18,14 +18,14 @@ databaseFactory= databaseFactoryFfi;
 
   void loadTasks() async{
  _task= await DatabaseS().tasks(); 
+ notifyListeners();
   }
 
 void addTask(TaskModel task) async{
 await DatabaseS().insertTask(task);
 _task.add(task);
-debugPrint(task.description);
-debugPrint(task.name);
-debugPrint(task.duedate.toIso8601String());
+notifyListeners();
+debugPrint('add task from provider');
 }
 
 void udpateTask(TaskModel task)async{
@@ -34,6 +34,7 @@ int index = _task.indexWhere((t)=> t.id==task.id);
 if(index !=-1){
   _task[index] =task;
   notifyListeners();
+  debugPrint('update task from provider');
 }
 }
 
@@ -41,11 +42,9 @@ if(index !=-1){
 await DatabaseS().deleteTask(id);
 _task.removeWhere((task)=> task.id==id);
 notifyListeners();
+debugPrint('delete task from provider');
   }
 
-  void taskProgress(){
-
-  }
 
   void toggleTaskCompletion(String id)async{
  int index = _task.indexWhere((task)=> task.id== id);
@@ -58,7 +57,8 @@ taskModel= TaskModel(
  name: taskModel.name,
  isCompleted: !taskModel.isCompleted
  );
- udpateTask(taskModel);
+ 
+  udpateTask(taskModel);
  }
   }
 }
